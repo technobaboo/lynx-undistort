@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://x338c1rgpgwp"]
+
+[ext_resource type="Script" path="res://xr.gd" id="1_l1gq7"]
+[ext_resource type="Shader" uid="uid://bucq6a0ylklwn" path="res://gradient.tres" id="2_co0e5"]
+[ext_resource type="Script" path="res://cycle_modes.gd" id="3_q3l02"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_555l0"]
+shader = ExtResource("2_co0e5")
+
+[sub_resource type="Sky" id="Sky_5hajm"]
+sky_material = SubResource("ShaderMaterial_555l0")
+
+[sub_resource type="Environment" id="Environment_j3rr3"]
+background_mode = 2
+sky = SubResource("Sky_5hajm")
+
+[node name="XROrigin3D" type="XROrigin3D"]
+script = ExtResource("1_l1gq7")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="."]
+cull_mask = 0
+projection = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j3rr3")
+script = ExtResource("3_q3l02")

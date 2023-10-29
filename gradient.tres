@@ -1,0 +1,75 @@
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://bucq6a0ylklwn"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_qxy8p"]
+output_port_for_preview = 0
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_r7v3m"]
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_s5xrk"]
+default_input_values = [0, 0.0, 1, 0.0, 2, 0.0, 3, 0.0]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_qvvvh"]
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_q8qw5"]
+parameter_name = "gradientX"
+qualifier = 1
+
+[resource]
+code = "shader_type sky;
+render_mode disable_fog;
+
+global uniform bool gradientX;
+
+
+
+void sky() {
+// BooleanParameter:6
+	bool n_out6p0 = gradientX;
+
+
+// Input:2
+	vec2 n_out2p0 = SCREEN_UV;
+
+
+// VectorDecompose:3
+	float n_out3p0 = n_out2p0.x;
+	float n_out3p1 = n_out2p0.y;
+
+
+	float n_out5p0;
+// Switch:5
+	n_out5p0 = mix(n_out3p1, n_out3p0, float(n_out6p0));
+
+
+// VectorCompose:4
+	float n_in4p3 = 0.00000;
+	vec4 n_out4p0 = vec4(n_out5p0, n_out5p0, n_out5p0, n_in4p3);
+
+
+// Output:0
+	COLOR = vec3(n_out4p0.xyz);
+
+
+}
+"
+mode = 3
+flags/use_half_res_pass = false
+flags/use_quarter_res_pass = false
+flags/disable_fog = true
+flags/use_debanding = false
+nodes/sky/0/position = Vector2(600, 100)
+nodes/sky/2/node = SubResource("VisualShaderNodeInput_qxy8p")
+nodes/sky/2/position = Vector2(-420, 60)
+nodes/sky/3/node = SubResource("VisualShaderNodeVectorDecompose_r7v3m")
+nodes/sky/3/position = Vector2(-140, 40)
+nodes/sky/4/node = SubResource("VisualShaderNodeVectorCompose_s5xrk")
+nodes/sky/4/position = Vector2(300, 20)
+nodes/sky/5/node = SubResource("VisualShaderNodeSwitch_qvvvh")
+nodes/sky/5/position = Vector2(120, 20)
+nodes/sky/6/node = SubResource("VisualShaderNodeBooleanParameter_q8qw5")
+nodes/sky/6/position = Vector2(-240, -140)
+nodes/sky/connections = PackedInt32Array(2, 0, 3, 0, 5, 0, 4, 2, 5, 0, 4, 1, 5, 0, 4, 0, 6, 0, 5, 0, 4, 0, 0, 0, 3, 0, 5, 1, 3, 1, 5, 2)
